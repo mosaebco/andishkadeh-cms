@@ -12,6 +12,6 @@ class ListContentItems extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [CreateAction::make()->label('New content')];
+        return [CreateAction::make()->label('افزودن محتوا')];
     }
 }

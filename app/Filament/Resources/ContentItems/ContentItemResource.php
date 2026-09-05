@@ -34,7 +34,11 @@ class ContentItemResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = 'Content';
+    protected static ?string $navigationLabel = 'محتوا';
+
+    protected static ?string $modelLabel = 'محتوا';
+
+    protected static ?string $pluralModelLabel = 'محتوا';
 
     protected static ?int $navigationSort = 3;
 
@@ -43,29 +47,30 @@ class ContentItemResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Content details')
+            Section::make('جزئیات محتوا')
                 ->columns(2)
                 ->schema([
                     Select::make('type')
-                        ->label('Content type')
+                        ->label('نوع محتوا')
                         ->options([
-                            'post' => 'Post',
-                            'course' => 'Course',
-                            'book' => 'Book',
-                            'announcement' => 'Announcement',
+                            'post' => 'مطلب',
+                            'course' => 'دوره',
+                            'book' => 'کتاب',
+                            'announcement' => 'اطلاعیه',
                         ])
                         ->default('post')
                         ->live()
                         ->required(),
                     Select::make('series_id')
-                        ->label('Series (posts only)')
+                        ->label('مجموعه (فقط مطالب)')
                         ->relationship('series', 'title')
                         ->searchable()
                         ->preload()
                         ->nullable()
                         ->visible(fn (Get $get): bool => $get('type') === 'post'),
-                    TextInput::make('title')->required()->maxLength(180),
+                    TextInput::make('title')->label('عنوان')->required()->maxLength(180),
                     TextInput::make('slug')
+                        ->label('نامک')
                         ->nullable()
                         ->alphaDash()
                         ->unique(
@@ -73,10 +78,10 @@ class ContentItemResource extends Resource
                             modifyRuleUsing: fn (Unique $rule, Get $get): Unique => $rule->where('type', $get('type')),
                         )
                         ->maxLength(200)
-                        ->helperText('Leave blank to generate from the title.'),
-                    Textarea::make('excerpt')->label('Short description')->rows(3)->maxLength(500)->columnSpanFull(),
+                        ->helperText('برای ساخت خودکار از روی عنوان، خالی بگذارید.'),
+                    Textarea::make('excerpt')->label('توضیح کوتاه')->rows(3)->maxLength(500)->columnSpanFull(),
                     FileUpload::make('cover_image_path')
-                        ->label('Banner / cover image')
+                        ->label('بنر / تصویر روی جلد')
                         ->image()
                         ->imageEditor()
                         ->disk(config('media.disk'))
@@ -86,80 +91,80 @@ class ContentItemResource extends Resource
                         ->preventFilePathTampering()
                         ->required(fn (Get $get): bool => in_array($get('type'), ['course', 'book'], true))
                         ->columnSpanFull(),
-                    TextInput::make('sort_order')->numeric()->default(0)->minValue(0),
+                    TextInput::make('sort_order')->label('ترتیب نمایش')->numeric()->default(0)->minValue(0),
                 ]),
-            Section::make('Content')
-                ->description('The public page renders text, then videos/images, then audio, then links.')
+            Section::make('محتوا')
+                ->description('در صفحه عمومی، ابتدا متن، سپس ویدیوها و تصاویر، بعد فایل‌های صوتی و در پایان پیوندها نمایش داده می‌شوند.')
                 ->schema([
                     Builder::make('content_blocks')
-                        ->label('Content blocks')
+                        ->label('بلوک‌های محتوا')
                         ->blocks([
-                            Block::make('rich_text')->label('Text')->icon('heroicon-o-bars-3-bottom-left')->schema([
+                            Block::make('rich_text')->label('متن')->icon('heroicon-o-bars-3-bottom-left')->schema([
                                 RichEditor::make('body')->label('')->required(),
                             ]),
-                            Block::make('heading')->icon('heroicon-o-hashtag')->schema([
-                                TextInput::make('text')->required()->maxLength(200),
-                                Select::make('level')->options(['2' => 'Heading 2', '3' => 'Heading 3', '4' => 'Heading 4'])->default('2')->required(),
+                            Block::make('heading')->label('عنوان میان‌متنی')->icon('heroicon-o-hashtag')->schema([
+                                TextInput::make('text')->label('متن عنوان')->required()->maxLength(200),
+                                Select::make('level')->label('سطح عنوان')->options(['2' => 'عنوان ۲', '3' => 'عنوان ۳', '4' => 'عنوان ۴'])->default('2')->required(),
                             ])->columns(2),
-                            Block::make('image')->icon('heroicon-o-photo')->schema([
-                                FileUpload::make('path')->image()->imageEditor()->disk(config('media.disk'))->directory('andishkadeh/content/images')->visibility('public')->maxSize(config('media.max_size_kb.image'))->preventFilePathTampering()->required(),
-                                TextInput::make('alt')->label('Alternative text')->maxLength(220),
-                                TextInput::make('caption')->maxLength(220),
+                            Block::make('image')->label('تصویر')->icon('heroicon-o-photo')->schema([
+                                FileUpload::make('path')->label('تصویر')->image()->imageEditor()->disk(config('media.disk'))->directory('andishkadeh/content/images')->visibility('public')->maxSize(config('media.max_size_kb.image'))->preventFilePathTampering()->required(),
+                                TextInput::make('alt')->label('متن جایگزین')->maxLength(220),
+                                TextInput::make('caption')->label('زیرنویس')->maxLength(220),
                             ]),
-                            Block::make('gallery')->icon('heroicon-o-squares-2x2')->schema([
-                                FileUpload::make('paths')->label('Images')->multiple()->reorderable()->image()->disk(config('media.disk'))->directory('andishkadeh/content/galleries')->visibility('public')->maxSize(config('media.max_size_kb.image'))->preventFilePathTampering()->required(),
+                            Block::make('gallery')->label('گالری تصاویر')->icon('heroicon-o-squares-2x2')->schema([
+                                FileUpload::make('paths')->label('تصاویر')->multiple()->reorderable()->image()->disk(config('media.disk'))->directory('andishkadeh/content/galleries')->visibility('public')->maxSize(config('media.max_size_kb.image'))->preventFilePathTampering()->required(),
                             ]),
-                            Block::make('video')->icon('heroicon-o-video-camera')->schema([
-                                FileUpload::make('path')->label('Local video')->disk(config('media.disk'))->directory('andishkadeh/content/videos')->visibility('public')->acceptedFileTypes(['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo'])->maxSize(config('media.max_size_kb.video'))->preventFilePathTampering(),
+                            Block::make('video')->label('ویدیو')->icon('heroicon-o-video-camera')->schema([
+                                FileUpload::make('path')->label('ویدیوی محلی')->disk(config('media.disk'))->directory('andishkadeh/content/videos')->visibility('public')->acceptedFileTypes(['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo'])->maxSize(config('media.max_size_kb.video'))->preventFilePathTampering(),
                                 TextInput::make('url')
-                                    ->label('Or external video URL')
+                                    ->label('یا نشانی ویدیوی خارجی')
                                     ->url()
                                     ->maxLength(2048)
                                     ->visible((bool) config('media.allow_external_urls')),
-                                TextInput::make('caption')->maxLength(220),
+                                TextInput::make('caption')->label('زیرنویس')->maxLength(220),
                             ]),
-                            Block::make('audio')->icon('heroicon-o-speaker-wave')->schema([
-                                FileUpload::make('path')->label('Audio file')->disk(config('media.disk'))->directory('andishkadeh/content/audio')->visibility('public')->acceptedFileTypes(['audio/mpeg', 'audio/mp4', 'audio/x-m4a', 'audio/aac', 'audio/ogg', 'audio/wav', 'audio/flac'])->maxSize(config('media.max_size_kb.audio'))->preventFilePathTampering()->required(),
-                                TextInput::make('caption')->maxLength(220),
+                            Block::make('audio')->label('فایل صوتی')->icon('heroicon-o-speaker-wave')->schema([
+                                FileUpload::make('path')->label('فایل صوتی')->disk(config('media.disk'))->directory('andishkadeh/content/audio')->visibility('public')->acceptedFileTypes(['audio/mpeg', 'audio/mp4', 'audio/x-m4a', 'audio/aac', 'audio/ogg', 'audio/wav', 'audio/flac'])->maxSize(config('media.max_size_kb.audio'))->preventFilePathTampering()->required(),
+                                TextInput::make('caption')->label('عنوان صوت')->maxLength(220),
                             ]),
-                            Block::make('quote')->icon('heroicon-o-chat-bubble-left-right')->schema([
-                                Textarea::make('text')->required()->rows(4),
-                                TextInput::make('citation')->maxLength(180),
+                            Block::make('quote')->label('نقل‌قول')->icon('heroicon-o-chat-bubble-left-right')->schema([
+                                Textarea::make('text')->label('متن نقل‌قول')->required()->rows(4),
+                                TextInput::make('citation')->label('منبع')->maxLength(180),
                             ]),
-                            Block::make('download')->icon('heroicon-o-arrow-down-tray')->schema([
-                                FileUpload::make('path')->label('File')->disk(config('media.disk'))->directory('andishkadeh/content/files')->visibility('public')->maxSize(config('media.max_size_kb.download'))->preventFilePathTampering()->required(),
-                                TextInput::make('label')->required()->maxLength(160),
+                            Block::make('download')->label('فایل دانلودی')->icon('heroicon-o-arrow-down-tray')->schema([
+                                FileUpload::make('path')->label('فایل')->disk(config('media.disk'))->directory('andishkadeh/content/files')->visibility('public')->maxSize(config('media.max_size_kb.download'))->preventFilePathTampering()->required(),
+                                TextInput::make('label')->label('عنوان فایل')->required()->maxLength(160),
                             ]),
                         ])
                         ->collapsible()
                         ->reorderable()
                         ->blockNumbers()
-                        ->addActionLabel('Add content block'),
+                        ->addActionLabel('افزودن بلوک محتوا'),
                 ]),
-            Section::make('Related links')
+            Section::make('پیوندهای مرتبط')
                 ->schema([
                     Repeater::make('links')
                         ->relationship()
                         ->orderColumn('sort_order')
                         ->schema([
-                            TextInput::make('label')->required()->maxLength(160),
-                            TextInput::make('url')->url()->required()->maxLength(2048),
-                            Textarea::make('description')->rows(2)->maxLength(320)->columnSpanFull(),
+                            TextInput::make('label')->label('برچسب پیوند')->required()->maxLength(160),
+                            TextInput::make('url')->label('نشانی پیوند')->url()->required()->maxLength(2048),
+                            Textarea::make('description')->label('توضیح پیوند')->rows(2)->maxLength(320)->columnSpanFull(),
                         ])
                         ->columns(2)
                         ->defaultItems(0)
-                        ->addActionLabel('Add labeled link'),
+                        ->addActionLabel('افزودن پیوند برچسب‌دار'),
                 ]),
-            Section::make('Publishing')
+            Section::make('انتشار')
                 ->columns(2)
                 ->schema([
-                    Select::make('status')->options([
-                        'draft' => 'Draft',
-                        'scheduled' => 'Scheduled',
-                        'published' => 'Published',
-                        'archived' => 'Archived',
+                    Select::make('status')->label('وضعیت')->options([
+                        'draft' => 'پیش‌نویس',
+                        'scheduled' => 'زمان‌بندی‌شده',
+                        'published' => 'منتشرشده',
+                        'archived' => 'بایگانی‌شده',
                     ])->default('draft')->required(),
-                    DateTimePicker::make('published_at')->label('Publish at')->seconds(false),
+                    DateTimePicker::make('published_at')->label('زمان انتشار')->seconds(false),
                 ]),
         ]);
     }
@@ -170,23 +175,35 @@ class ContentItemResource extends Resource
             ->defaultSort('published_at', 'desc')
             ->columns([
                 ImageColumn::make('cover_image_path')->label('')->disk(config('media.disk'))->square(),
-                TextColumn::make('title')->searchable()->weight('bold'),
-                TextColumn::make('type')->badge()->sortable(),
-                TextColumn::make('status')->badge()->sortable(),
-                TextColumn::make('published_at')->dateTime()->sortable(),
+                TextColumn::make('title')->label('عنوان')->searchable()->weight('bold'),
+                TextColumn::make('type')->label('نوع')->badge()->sortable()->formatStateUsing(fn (string $state): string => match ($state) {
+                    'post' => 'مطلب',
+                    'course' => 'دوره',
+                    'book' => 'کتاب',
+                    'announcement' => 'اطلاعیه',
+                    default => $state,
+                }),
+                TextColumn::make('status')->label('وضعیت')->badge()->sortable()->formatStateUsing(fn (string $state): string => match ($state) {
+                    'draft' => 'پیش‌نویس',
+                    'scheduled' => 'زمان‌بندی‌شده',
+                    'published' => 'منتشرشده',
+                    'archived' => 'بایگانی‌شده',
+                    default => $state,
+                }),
+                TextColumn::make('published_at')->label('زمان انتشار')->dateTime()->sortable(),
             ])
             ->filters([
-                SelectFilter::make('type')->options([
-                    'post' => 'Post',
-                    'course' => 'Course',
-                    'book' => 'Book',
-                    'announcement' => 'Announcement',
+                SelectFilter::make('type')->label('نوع محتوا')->options([
+                    'post' => 'مطلب',
+                    'course' => 'دوره',
+                    'book' => 'کتاب',
+                    'announcement' => 'اطلاعیه',
                 ]),
-                SelectFilter::make('status')->options([
-                    'draft' => 'Draft',
-                    'scheduled' => 'Scheduled',
-                    'published' => 'Published',
-                    'archived' => 'Archived',
+                SelectFilter::make('status')->label('وضعیت')->options([
+                    'draft' => 'پیش‌نویس',
+                    'scheduled' => 'زمان‌بندی‌شده',
+                    'published' => 'منتشرشده',
+                    'archived' => 'بایگانی‌شده',
                 ]),
             ])
             ->recordActions([EditAction::make(), DeleteAction::make()]);

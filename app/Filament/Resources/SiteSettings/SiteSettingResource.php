@@ -29,7 +29,11 @@ class SiteSettingResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-adjustments-horizontal';
 
-    protected static ?string $navigationLabel = 'Site sections';
+    protected static ?string $navigationLabel = 'بخش‌های سایت';
+
+    protected static ?string $modelLabel = 'بخش سایت';
+
+    protected static ?string $pluralModelLabel = 'بخش‌های سایت';
 
     protected static ?int $navigationSort = 10;
 
@@ -38,45 +42,45 @@ class SiteSettingResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Section content')
+            Section::make('محتوای بخش')
                 ->schema([
                     Select::make('key')
-                        ->label('Section')
+                        ->label('بخش')
                         ->options([
-                            'about' => 'About Us',
-                            'registration' => 'Institute registration',
-                            'donation' => 'Donation',
+                            'about' => 'درباره ما',
+                            'registration' => 'ثبت‌نام مؤسسه',
+                            'donation' => 'اهدا',
                         ])
                         ->required()
                         ->live()
                         ->unique(ignoreRecord: true),
-                    TextInput::make('title')->maxLength(180),
-                    RichEditor::make('body')->label('Description')->columnSpanFull(),
-                    TextInput::make('url')->label('External URL')->url()->maxLength(2048),
+                    TextInput::make('title')->label('عنوان')->maxLength(180),
+                    RichEditor::make('body')->label('توضیحات')->columnSpanFull(),
+                    TextInput::make('url')->label('نشانی خارجی')->url()->maxLength(2048),
                     KeyValue::make('settings')
-                        ->label('Additional settings')
-                        ->keyLabel('Name')
-                        ->valueLabel('Value')
+                        ->label('تنظیمات تکمیلی')
+                        ->keyLabel('نام')
+                        ->valueLabel('مقدار')
                         ->columnSpanFull()
                         ->visible(fn (Get $get): bool => $get('key') !== 'donation')
                         ->dehydrated(fn (Get $get): bool => $get('key') !== 'donation'),
                     TextInput::make('settings.minimum_amount')
-                        ->label('Minimum donation (toman)')
+                        ->label('حداقل مبلغ اهدا (تومان)')
                         ->numeric()
                         ->integer()
                         ->minValue(1)
                         ->visible(fn (Get $get): bool => $get('key') === 'donation')
                         ->dehydrated(fn (Get $get): bool => $get('key') === 'donation'),
                     TagsInput::make('settings.quick_amounts')
-                        ->label('Quick donation amounts (toman)')
+                        ->label('مبالغ پیشنهادی اهدا (تومان)')
                         ->separator(',')
                         ->trim()
                         ->nestedRecursiveRules(['integer', 'min:1'])
-                        ->helperText('Enter one or more whole-toman amounts, separated by commas.')
+                        ->helperText('یک یا چند مبلغ کامل به تومان را با ویرگول جدا کنید.')
                         ->visible(fn (Get $get): bool => $get('key') === 'donation')
                         ->dehydrated(fn (Get $get): bool => $get('key') === 'donation')
                         ->columnSpanFull(),
-                    Toggle::make('is_active')->label('Visible')->default(true),
+                    Toggle::make('is_active')->label('قابل نمایش')->default(true),
                 ]),
         ]);
     }
@@ -85,10 +89,15 @@ class SiteSettingResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('key')->badge()->sortable(),
-                TextColumn::make('title')->searchable(),
-                IconColumn::make('is_active')->boolean()->label('Visible'),
-                TextColumn::make('updated_at')->dateTime()->sortable(),
+                TextColumn::make('key')->label('بخش')->badge()->sortable()->formatStateUsing(fn (string $state): string => match ($state) {
+                    'about' => 'درباره ما',
+                    'registration' => 'ثبت‌نام مؤسسه',
+                    'donation' => 'اهدا',
+                    default => $state,
+                }),
+                TextColumn::make('title')->label('عنوان')->searchable(),
+                IconColumn::make('is_active')->boolean()->label('قابل نمایش'),
+                TextColumn::make('updated_at')->label('آخرین تغییر')->dateTime()->sortable(),
             ])
             ->recordActions([EditAction::make(), DeleteAction::make()]);
     }

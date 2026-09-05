@@ -12,6 +12,6 @@ class ListPosts extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [CreateAction::make()->label('New post')];
+        return [CreateAction::make()->label('افزودن مطلب')];
     }
 }

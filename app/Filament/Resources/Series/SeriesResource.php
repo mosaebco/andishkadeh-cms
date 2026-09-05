@@ -28,7 +28,11 @@ class SeriesResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = 'Series';
+    protected static ?string $navigationLabel = 'مجموعه‌ها';
+
+    protected static ?string $modelLabel = 'مجموعه';
+
+    protected static ?string $pluralModelLabel = 'مجموعه‌ها';
 
     protected static ?int $navigationSort = 2;
 
@@ -37,14 +41,14 @@ class SeriesResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Series details')
+            Section::make('جزئیات مجموعه')
                 ->columns(2)
                 ->schema([
-                    TextInput::make('title')->required()->maxLength(180),
-                    TextInput::make('slug')->nullable()->alphaDash()->unique(ignoreRecord: true)->maxLength(200)->helperText('Leave blank to generate from the title.'),
-                    Textarea::make('description')->rows(5)->maxLength(1200)->columnSpanFull(),
+                    TextInput::make('title')->label('عنوان')->required()->maxLength(180),
+                    TextInput::make('slug')->label('نامک')->nullable()->alphaDash()->unique(ignoreRecord: true)->maxLength(200)->helperText('برای ساخت خودکار از روی عنوان، خالی بگذارید.'),
+                    Textarea::make('description')->label('توضیحات')->rows(5)->maxLength(1200)->columnSpanFull(),
                     FileUpload::make('cover_image_path')
-                        ->label('Cover image')
+                        ->label('تصویر روی جلد')
                         ->image()
                         ->imageEditor()
                         ->disk(config('media.disk'))
@@ -52,24 +56,25 @@ class SeriesResource extends Resource
                         ->visibility('public')
                         ->maxSize(config('media.max_size_kb.image'))
                         ->preventFilePathTampering(),
-                    TextInput::make('sort_order')->numeric()->default(0)->minValue(0),
+                    TextInput::make('sort_order')->label('ترتیب نمایش')->numeric()->default(0)->minValue(0),
                 ]),
-            Section::make('Publishing')
+            Section::make('انتشار')
                 ->columns(2)
                 ->schema([
                     Select::make('status')
+                        ->label('وضعیت')
                         ->options([
-                            'draft' => 'Draft',
-                            'scheduled' => 'Scheduled',
-                            'published' => 'Published',
-                            'archived' => 'Archived',
+                            'draft' => 'پیش‌نویس',
+                            'scheduled' => 'زمان‌بندی‌شده',
+                            'published' => 'منتشرشده',
+                            'archived' => 'بایگانی‌شده',
                         ])
                         ->default('draft')
                         ->required(),
                     DateTimePicker::make('published_at')
-                        ->label('Publish at')
+                        ->label('زمان انتشار')
                         ->seconds(false)
-                        ->helperText('Published items appear only after this time.'),
+                        ->helperText('موارد منتشرشده فقط پس از این زمان نمایش داده می‌شوند.'),
                 ]),
         ]);
     }
@@ -81,16 +86,22 @@ class SeriesResource extends Resource
             ->reorderable('sort_order')
             ->columns([
                 ImageColumn::make('cover_image_path')->label('')->disk(config('media.disk'))->square(),
-                TextColumn::make('title')->searchable()->weight('bold'),
-                TextColumn::make('posts_count')->counts('posts')->label('Posts'),
-                TextColumn::make('status')->badge()->sortable(),
-                TextColumn::make('published_at')->dateTime()->sortable(),
+                TextColumn::make('title')->label('عنوان')->searchable()->weight('bold'),
+                TextColumn::make('posts_count')->counts('posts')->label('مطالب'),
+                TextColumn::make('status')->label('وضعیت')->badge()->sortable()->formatStateUsing(fn (string $state): string => match ($state) {
+                    'draft' => 'پیش‌نویس',
+                    'scheduled' => 'زمان‌بندی‌شده',
+                    'published' => 'منتشرشده',
+                    'archived' => 'بایگانی‌شده',
+                    default => $state,
+                }),
+                TextColumn::make('published_at')->label('زمان انتشار')->dateTime()->sortable(),
             ])
-            ->filters([SelectFilter::make('status')->options([
-                'draft' => 'Draft',
-                'scheduled' => 'Scheduled',
-                'published' => 'Published',
-                'archived' => 'Archived',
+            ->filters([SelectFilter::make('status')->label('وضعیت')->options([
+                'draft' => 'پیش‌نویس',
+                'scheduled' => 'زمان‌بندی‌شده',
+                'published' => 'منتشرشده',
+                'archived' => 'بایگانی‌شده',
             ])])
             ->recordActions([EditAction::make(), DeleteAction::make()]);
     }

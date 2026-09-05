@@ -28,7 +28,11 @@ class BannerResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-photo';
 
-    protected static ?string $navigationLabel = 'Banners';
+    protected static ?string $navigationLabel = 'بنرهای صفحه اصلی';
+
+    protected static ?string $modelLabel = 'بنر';
+
+    protected static ?string $pluralModelLabel = 'بنرهای صفحه اصلی';
 
     protected static ?int $navigationSort = 1;
 
@@ -37,14 +41,14 @@ class BannerResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Banner content')
+            Section::make('محتوای بنر')
                 ->columns(2)
                 ->schema([
-                    TextInput::make('title')->required()->maxLength(160),
-                    TextInput::make('link_label')->label('Button label')->maxLength(80),
-                    Textarea::make('subtitle')->rows(3)->maxLength(320)->columnSpanFull(),
+                    TextInput::make('title')->label('عنوان')->required()->maxLength(160),
+                    TextInput::make('link_label')->label('متن دکمه')->maxLength(80),
+                    Textarea::make('subtitle')->label('توضیح کوتاه')->rows(3)->maxLength(320)->columnSpanFull(),
                     FileUpload::make('image_path')
-                        ->label('Banner image')
+                        ->label('تصویر بنر')
                         ->image()
                         ->imageEditor()
                         ->disk(config('media.disk'))
@@ -55,15 +59,15 @@ class BannerResource extends Resource
                         ->preventFilePathTampering()
                         ->required()
                         ->columnSpanFull(),
-                    TextInput::make('link_url')->label('Button URL')->url()->maxLength(2048)->columnSpanFull(),
+                    TextInput::make('link_url')->label('نشانی دکمه')->url()->maxLength(2048)->columnSpanFull(),
                 ]),
-            Section::make('Visibility')
+            Section::make('نمایش')
                 ->columns(4)
                 ->schema([
-                    Toggle::make('is_active')->default(false),
-                    TextInput::make('sort_order')->numeric()->default(0)->minValue(0),
-                    DateTimePicker::make('starts_at')->seconds(false),
-                    DateTimePicker::make('ends_at')->seconds(false)->after('starts_at'),
+                    Toggle::make('is_active')->label('فعال')->default(false),
+                    TextInput::make('sort_order')->label('ترتیب نمایش')->numeric()->default(0)->minValue(0),
+                    DateTimePicker::make('starts_at')->label('شروع نمایش')->seconds(false),
+                    DateTimePicker::make('ends_at')->label('پایان نمایش')->seconds(false)->after('starts_at'),
                 ]),
         ]);
     }
@@ -75,11 +79,11 @@ class BannerResource extends Resource
             ->reorderable('sort_order')
             ->columns([
                 ImageColumn::make('image_path')->label('')->disk(config('media.disk'))->square(),
-                TextColumn::make('title')->searchable()->weight('bold'),
-                TextColumn::make('sort_order')->label('#')->sortable(),
-                IconColumn::make('is_active')->boolean()->label('Active'),
-                TextColumn::make('starts_at')->dateTime()->sortable()->toggleable(),
-                TextColumn::make('ends_at')->dateTime()->sortable()->toggleable(),
+                TextColumn::make('title')->label('عنوان')->searchable()->weight('bold'),
+                TextColumn::make('sort_order')->label('ترتیب')->sortable(),
+                IconColumn::make('is_active')->boolean()->label('فعال'),
+                TextColumn::make('starts_at')->label('شروع نمایش')->dateTime()->sortable()->toggleable(),
+                TextColumn::make('ends_at')->label('پایان نمایش')->dateTime()->sortable()->toggleable(),
             ])
             ->recordActions([
                 EditAction::make(),

@@ -12,6 +12,6 @@ class ListContactMethods extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [CreateAction::make()->label('New contact method')];
+        return [CreateAction::make()->label('افزودن راه ارتباطی')];
     }
 }

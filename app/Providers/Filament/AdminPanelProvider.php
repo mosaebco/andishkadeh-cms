@@ -27,7 +27,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->brandName('Andishkadeh CMS')
+            ->brandName('مدیریت اندیشکده')
             ->colors([
                 'primary' => Color::Indigo,
             ])

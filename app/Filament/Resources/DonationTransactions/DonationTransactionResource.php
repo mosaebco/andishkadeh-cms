@@ -17,7 +17,11 @@ class DonationTransactionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-heart';
 
-    protected static ?string $navigationLabel = 'Donations';
+    protected static ?string $navigationLabel = 'تراکنش‌های اهدا';
+
+    protected static ?string $modelLabel = 'تراکنش اهدا';
+
+    protected static ?string $pluralModelLabel = 'تراکنش‌های اهدا';
 
     protected static ?int $navigationSort = 12;
 
@@ -31,18 +35,24 @@ class DonationTransactionResource extends Resource
         return $table
             ->defaultSort('created_at', 'desc')
             ->columns([
-                TextColumn::make('amount_toman')->label('Amount (toman)')->numeric()->sortable(),
-                TextColumn::make('status')->badge()->sortable(),
-                TextColumn::make('gateway_reference')->label('Gateway reference')->searchable(),
-                TextColumn::make('created_at')->dateTime()->sortable(),
-                TextColumn::make('verified_at')->dateTime()->sortable(),
+                TextColumn::make('amount_toman')->label('مبلغ (تومان)')->numeric()->sortable(),
+                TextColumn::make('status')->label('وضعیت')->badge()->sortable()->formatStateUsing(fn (string $state): string => match ($state) {
+                    'pending' => 'در انتظار',
+                    'paid' => 'پرداخت‌شده',
+                    'failed' => 'ناموفق',
+                    'expired' => 'منقضی‌شده',
+                    default => $state,
+                }),
+                TextColumn::make('gateway_reference')->label('مرجع درگاه')->searchable(),
+                TextColumn::make('created_at')->label('زمان ایجاد')->dateTime()->sortable(),
+                TextColumn::make('verified_at')->label('زمان تأیید')->dateTime()->sortable(),
             ])
             ->filters([
-                SelectFilter::make('status')->options([
-                    'pending' => 'Pending',
-                    'paid' => 'Paid',
-                    'failed' => 'Failed',
-                    'expired' => 'Expired',
+                SelectFilter::make('status')->label('وضعیت')->options([
+                    'pending' => 'در انتظار',
+                    'paid' => 'پرداخت‌شده',
+                    'failed' => 'ناموفق',
+                    'expired' => 'منقضی‌شده',
                 ]),
             ])
             ->recordActions([]);

@@ -12,6 +12,6 @@ class ManageBanners extends ManageRecords
 
     protected function getHeaderActions(): array
     {
-        return [CreateAction::make()->label('New banner')];
+        return [CreateAction::make()->label('افزودن بنر')];
     }
 }

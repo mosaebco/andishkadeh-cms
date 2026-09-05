@@ -12,6 +12,6 @@ class ListSeries extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [CreateAction::make()->label('New series')];
+        return [CreateAction::make()->label('افزودن مجموعه')];
     }
 }
