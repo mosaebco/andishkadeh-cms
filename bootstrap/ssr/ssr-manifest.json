@@ -1,0 +1,17 @@
+{
+  "\u0000rolldown/runtime.js": [],
+  "resources/js/Components/AnnouncementList.tsx": [],
+  "resources/js/Components/BannerCarousel.tsx": [],
+  "resources/js/Components/ContentBlocks.tsx": [],
+  "resources/js/Components/ContentCardGrid.tsx": [],
+  "resources/js/Components/PostList.tsx": [],
+  "resources/js/Components/RelatedLinks.tsx": [],
+  "resources/js/Components/SiteLayout.tsx": [],
+  "resources/js/Pages/Content/Show.tsx": [],
+  "resources/js/Pages/Donation/Show.tsx": [],
+  "resources/js/Pages/Home.tsx": [],
+  "resources/js/Pages/Posts/Show.tsx": [],
+  "resources/js/Pages/Series/Show.tsx": [],
+  "resources/js/locales/fa.ts": [],
+  "resources/js/ssr.tsx": []
+}
