@@ -1,0 +1,52 @@
+<?php
+
+return [
+
+    'accepted' => 'پذیرش :attribute الزامی است.',
+    'after' => ':attribute باید تاریخی بعد از :date باشد.',
+    'alpha_dash' => ':attribute فقط می‌تواند شامل حروف، اعداد، خط تیره و زیرخط باشد.',
+    'array' => ':attribute باید آرایه باشد.',
+    'before' => ':attribute باید تاریخی قبل از :date باشد.',
+    'boolean' => 'مقدار :attribute باید درست یا نادرست باشد.',
+    'date' => ':attribute تاریخ معتبری نیست.',
+    'email' => ':attribute باید یک نشانی ایمیل معتبر باشد.',
+    'file' => ':attribute باید فایل باشد.',
+    'image' => ':attribute باید تصویر باشد.',
+    'in' => 'مقدار انتخاب‌شده برای :attribute معتبر نیست.',
+    'integer' => ':attribute باید عدد صحیح باشد.',
+    'max' => [
+        'array' => ':attribute نباید بیشتر از :max مورد داشته باشد.',
+        'file' => 'حجم :attribute نباید بیشتر از :max کیلوبایت باشد.',
+        'numeric' => 'مقدار :attribute نباید بیشتر از :max باشد.',
+        'string' => 'طول :attribute نباید بیشتر از :max نویسه باشد.',
+    ],
+    'min' => [
+        'array' => ':attribute باید حداقل :min مورد داشته باشد.',
+        'file' => 'حجم :attribute باید حداقل :min کیلوبایت باشد.',
+        'numeric' => 'مقدار :attribute باید حداقل :min باشد.',
+        'string' => 'طول :attribute باید حداقل :min نویسه باشد.',
+    ],
+    'numeric' => ':attribute باید عدد باشد.',
+    'required' => 'وارد کردن :attribute الزامی است.',
+    'string' => ':attribute باید رشته باشد.',
+    'unique' => ':attribute قبلاً ثبت شده است.',
+    'url' => 'فرمت :attribute معتبر نیست.',
+    'uploaded' => 'بارگذاری :attribute با مشکل مواجه شد.',
+
+    'attributes' => [
+        'title' => 'عنوان',
+        'slug' => 'نامک',
+        'type' => 'نوع',
+        'status' => 'وضعیت',
+        'content_blocks' => 'بلوک‌های محتوا',
+        'cover_image_path' => 'تصویر روی جلد',
+        'image_path' => 'تصویر',
+        'published_at' => 'زمان انتشار',
+        'starts_at' => 'شروع نمایش',
+        'ends_at' => 'پایان نمایش',
+        'link_url' => 'نشانی پیوند',
+        'url' => 'نشانی',
+        'email' => 'ایمیل',
+        'password' => 'رمز عبور',
+    ],
+];
