@@ -73,6 +73,8 @@ class SeriesResource extends Resource
                         ->required(),
                     DateTimePicker::make('published_at')
                         ->label('زمان انتشار')
+                        ->jalali()
+                        ->displayFormat('Y/m/d H:i')
                         ->seconds(false)
                         ->helperText('موارد منتشرشده فقط پس از این زمان نمایش داده می‌شوند.'),
                 ]),
@@ -95,7 +97,7 @@ class SeriesResource extends Resource
                     'archived' => 'بایگانی‌شده',
                     default => $state,
                 }),
-                TextColumn::make('published_at')->label('زمان انتشار')->dateTime()->sortable(),
+                TextColumn::make('published_at')->label('زمان انتشار')->jalaliDateTime('Y/m/d H:i')->sortable(),
             ])
             ->filters([SelectFilter::make('status')->label('وضعیت')->options([
                 'draft' => 'پیش‌نویس',

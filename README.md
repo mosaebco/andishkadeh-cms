@@ -12,6 +12,7 @@ Laravel 13 CMS with a React/Inertia SSR public website, Filament 5 administratio
 - Responsive Persian RTL public homepage, series pages, and content detail pages
 - Configurable About, institute-registration, Contact, and Donation sections
 - Donation transaction storage prepared for the gateway adapter (gateway selection pending)
+- Persian Jalali calendar pickers and table display in the admin panel (via `mokhosh/filament-jalali`), with Gregorian timestamps retained in the database
 - Server-side rendering for public pages
 
 See [the active blueprint](doc/blueprint.md) and [decision log](doc/need-to-know.md) before adding another feature.

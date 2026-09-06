@@ -164,7 +164,7 @@ class ContentItemResource extends Resource
                         'published' => 'منتشرشده',
                         'archived' => 'بایگانی‌شده',
                     ])->default('draft')->required(),
-                    DateTimePicker::make('published_at')->label('زمان انتشار')->seconds(false),
+                    DateTimePicker::make('published_at')->label('زمان انتشار')->jalali()->displayFormat('Y/m/d H:i')->seconds(false),
                 ]),
         ]);
     }
@@ -190,7 +190,7 @@ class ContentItemResource extends Resource
                     'archived' => 'بایگانی‌شده',
                     default => $state,
                 }),
-                TextColumn::make('published_at')->label('زمان انتشار')->dateTime()->sortable(),
+                TextColumn::make('published_at')->label('زمان انتشار')->jalaliDateTime('Y/m/d H:i')->sortable(),
             ])
             ->filters([
                 SelectFilter::make('type')->label('نوع محتوا')->options([

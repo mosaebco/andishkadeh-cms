@@ -29,6 +29,18 @@ class AdminPanelTest extends TestCase
         $this->actingAs($admin)->get('/admin/donation-transactions')->assertOk();
     }
 
+    public function test_jalali_date_picker_is_rendered_on_scheduled_content_forms(): void
+    {
+        $admin = User::factory()->create();
+
+        $this->actingAs($admin)
+            ->get('/admin/series/create')
+            ->assertOk()
+            ->assertSee('filament-jalali', escape: false)
+            ->assertSee('fi-fo-date-time-picker-panel', escape: false)
+            ->assertSee('YYYY/MM/DD HH:mm', escape: false);
+    }
+
     public function test_a_guest_is_redirected_to_the_admin_login(): void
     {
         $this->get('/admin')->assertRedirect('/admin/login');

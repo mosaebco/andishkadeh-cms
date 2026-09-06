@@ -44,8 +44,8 @@ class DonationTransactionResource extends Resource
                     default => $state,
                 }),
                 TextColumn::make('gateway_reference')->label('مرجع درگاه')->searchable(),
-                TextColumn::make('created_at')->label('زمان ایجاد')->dateTime()->sortable(),
-                TextColumn::make('verified_at')->label('زمان تأیید')->dateTime()->sortable(),
+                TextColumn::make('created_at')->label('زمان ایجاد')->jalaliDateTime('Y/m/d H:i')->sortable(),
+                TextColumn::make('verified_at')->label('زمان تأیید')->jalaliDateTime('Y/m/d H:i')->sortable(),
             ])
             ->filters([
                 SelectFilter::make('status')->label('وضعیت')->options([

@@ -97,7 +97,7 @@ class SiteSettingResource extends Resource
                 }),
                 TextColumn::make('title')->label('عنوان')->searchable(),
                 IconColumn::make('is_active')->boolean()->label('قابل نمایش'),
-                TextColumn::make('updated_at')->label('آخرین تغییر')->dateTime()->sortable(),
+                TextColumn::make('updated_at')->label('آخرین تغییر')->jalaliDateTime('Y/m/d H:i')->sortable(),
             ])
             ->recordActions([EditAction::make(), DeleteAction::make()]);
     }
