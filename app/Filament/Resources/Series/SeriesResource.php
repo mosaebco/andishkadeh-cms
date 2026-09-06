@@ -65,7 +65,6 @@ class SeriesResource extends Resource
                         ->label('وضعیت')
                         ->options([
                             'draft' => 'پیش‌نویس',
-                            'scheduled' => 'زمان‌بندی‌شده',
                             'published' => 'منتشرشده',
                             'archived' => 'بایگانی‌شده',
                         ])
@@ -92,7 +91,6 @@ class SeriesResource extends Resource
                 TextColumn::make('posts_count')->counts('posts')->label('مطالب'),
                 TextColumn::make('status')->label('وضعیت')->badge()->sortable()->formatStateUsing(fn (string $state): string => match ($state) {
                     'draft' => 'پیش‌نویس',
-                    'scheduled' => 'زمان‌بندی‌شده',
                     'published' => 'منتشرشده',
                     'archived' => 'بایگانی‌شده',
                     default => $state,
@@ -101,7 +99,6 @@ class SeriesResource extends Resource
             ])
             ->filters([SelectFilter::make('status')->label('وضعیت')->options([
                 'draft' => 'پیش‌نویس',
-                'scheduled' => 'زمان‌بندی‌شده',
                 'published' => 'منتشرشده',
                 'archived' => 'بایگانی‌شده',
             ])])

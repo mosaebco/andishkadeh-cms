@@ -17,7 +17,7 @@ Read this file with [the current blueprint](blueprint.md) before beginning a new
 | D-007 | 2026-09-04 | All published content is publicly accessible. |
 | D-008 | 2026-09-04 | **Superseded by D-021:** the earlier assumption was that every post belonged to exactly one ordered series. |
 | D-009 | 2026-09-04 | Posts use bounded ordered blocks for text, headings, images, galleries, audio, uploaded/external video, links, quotes, and files. |
-| D-010 | 2026-09-04 | Use draft, scheduled, published, and archived content states. |
+| D-010 | 2026-09-04 | **Superseded by D-058:** use draft, scheduled, published, and archived content states. |
 | D-011 | 2026-09-04 | Use Program / برنامه for external classes, seminars, workshops, and similar registration targets. |
 | D-012 | 2026-09-04 | **Superseded by D-043:** an earlier plan allowed free/paid programs and program-specific discounts. |
 | D-013 | 2026-09-04 | **Superseded by D-043:** an earlier plan combined discounts with a 100% cap. |
@@ -64,6 +64,7 @@ Read this file with [the current blueprint](blueprint.md) before beginning a new
 | D-055 | 2026-09-06 | Site-wide search is deferred. The first release focuses on the homepage, publishing, content detail pages, site sections, and Donation. |
 | D-056 | 2026-09-06 | Books are informational pages only. No product catalog, book shop, purchasing, or commerce flow is planned. |
 | D-057 | 2026-09-06 | The single institute-registration section with its external form is sufficient; no separate membership-application workflow is planned. |
+| D-058 | 2026-09-06 | Remove the unused `scheduled` content status. Use `published` with a future `published_at` for automatic publication at a selected time; valid statuses are `draft`, `published`, and `archived`. |
 
 ## Current milestone questions
 
@@ -353,6 +354,6 @@ Can programs fill up? When is a seat reserved? Can users cancel, and what refund
 
 - Status: **Deferred**
 
-Are products, donations, membership applications, custom-course requests, social links, and advanced search still wanted? They are neither removed nor scheduled until reconfirmed.
+Are products, donations, membership applications, custom-course requests, social links, and advanced search still wanted? They are neither removed nor planned until reconfirmed.
 
 **Answer (2026-09-06):** Do not generate further clarification questions from the original brief. The current agreed scope is authoritative; any remaining original feature is deferred unless the project owner explicitly requests it later. Products, membership applications, and search have already been excluded or deferred; Donation and Contact/social links are part of the current scope.

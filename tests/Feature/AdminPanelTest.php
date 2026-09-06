@@ -29,7 +29,7 @@ class AdminPanelTest extends TestCase
         $this->actingAs($admin)->get('/admin/donation-transactions')->assertOk();
     }
 
-    public function test_jalali_date_picker_is_rendered_on_scheduled_content_forms(): void
+    public function test_jalali_date_picker_is_rendered_on_content_forms(): void
     {
         $admin = User::factory()->create();
 

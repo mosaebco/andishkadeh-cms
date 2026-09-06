@@ -8,7 +8,7 @@ Laravel 13 CMS with a React/Inertia SSR public website, Filament 5 administratio
 - Unified content management for posts, courses, books, and announcements
 - Series with ordered posts and standalone posts
 - Multimedia block editor for text, headings, images, galleries, audio, video, links, quotes, and files
-- Draft, scheduled, published, and archived content
+- Draft, published, and archived content, with future publication dates supported by `published_at`
 - Responsive Persian RTL public homepage, series pages, and content detail pages
 - Configurable About, institute-registration, Contact, and Donation sections
 - Donation transaction storage prepared for the gateway adapter (gateway selection pending)

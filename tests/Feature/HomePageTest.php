@@ -37,7 +37,7 @@ class HomePageTest extends TestCase
                 ->where('series.0.posts.0.title', 'Visible post'));
     }
 
-    public function test_scheduled_content_does_not_appear_early(): void
+    public function test_future_published_content_does_not_appear_early(): void
     {
         $series = Series::factory()->create([
             'status' => 'published',

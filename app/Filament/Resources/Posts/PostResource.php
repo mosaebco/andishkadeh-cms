@@ -137,7 +137,6 @@ class PostResource extends Resource
                 ->schema([
                     Select::make('status')->label('وضعیت')->options([
                         'draft' => 'پیش‌نویس',
-                        'scheduled' => 'زمان‌بندی‌شده',
                         'published' => 'منتشرشده',
                         'archived' => 'بایگانی‌شده',
                     ])->default('draft')->required(),
@@ -157,7 +156,6 @@ class PostResource extends Resource
                 TextColumn::make('sort_order')->label('ترتیب')->sortable(),
                 TextColumn::make('status')->label('وضعیت')->badge()->sortable()->formatStateUsing(fn (string $state): string => match ($state) {
                     'draft' => 'پیش‌نویس',
-                    'scheduled' => 'زمان‌بندی‌شده',
                     'published' => 'منتشرشده',
                     'archived' => 'بایگانی‌شده',
                     default => $state,
@@ -167,7 +165,7 @@ class PostResource extends Resource
             ->filters([
                 SelectFilter::make('series')->label('مجموعه')->relationship('series', 'title'),
                 SelectFilter::make('status')->label('وضعیت')->options([
-                    'draft' => 'پیش‌نویس', 'scheduled' => 'زمان‌بندی‌شده', 'published' => 'منتشرشده', 'archived' => 'بایگانی‌شده',
+                    'draft' => 'پیش‌نویس', 'published' => 'منتشرشده', 'archived' => 'بایگانی‌شده',
                 ]),
             ])
             ->recordActions([EditAction::make(), DeleteAction::make()]);

@@ -70,7 +70,7 @@ Proposed common fields:
 - `summary`/short description
 - `body` or ordered `content_blocks` JSONB
 - Optional `banner_image_path` for the item hero/banner; validation requires it for courses and books, while posts and announcements may omit it
-- Publication status: `draft`, `scheduled`, `published`, `archived`
+- Publication status: `draft`, `published`, `archived`; a future `published_at` controls when published content becomes public
 - `published_at`
 - `sort_order`
 - SEO fields when SEO work begins
@@ -154,7 +154,7 @@ The first public content milestone is implemented and being polished:
 - Public series, post, course, book, and announcement detail pages
 - A bounded multimedia block editor with fixed public section ordering
 - Filament resources for banners, series, shared content items, site sections, contact methods, and read-only donation transactions
-- Draft, scheduled, published, and archived content states
+- Draft, published, and archived content states, with future publication dates supported by `published_at`
 - Configurable About, institute-registration, Contact, and Donation sections
 
 The Donation gateway adapter and external registration provider are intentionally pending their real provider details. Program registration/payment, search, and book commerce remain out of scope. The existing separate `posts` implementation is retained as a compatibility route/resource while the unified Content resource is the primary admin workflow.
@@ -218,7 +218,7 @@ The block editor uses a bounded Filament Builder stored as PostgreSQL `jsonb`/La
 
 - A record is public only when its status is `published` and its publication time is not in the future.
 - A post is public only when its status/time are public and, if it has a `series_id`, its parent series is also public. Standalone posts with `series_id = null` do not require a series.
-- Draft, future, and archived content must return `404` publicly.
+- Draft, not-yet-published, and archived content must return `404` publicly.
 - All published series and posts are public; there is no paid or account-restricted content.
 
 ## 6. Homepage blueprint

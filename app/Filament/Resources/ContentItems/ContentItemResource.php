@@ -160,7 +160,6 @@ class ContentItemResource extends Resource
                 ->schema([
                     Select::make('status')->label('وضعیت')->options([
                         'draft' => 'پیش‌نویس',
-                        'scheduled' => 'زمان‌بندی‌شده',
                         'published' => 'منتشرشده',
                         'archived' => 'بایگانی‌شده',
                     ])->default('draft')->required(),
@@ -185,7 +184,6 @@ class ContentItemResource extends Resource
                 }),
                 TextColumn::make('status')->label('وضعیت')->badge()->sortable()->formatStateUsing(fn (string $state): string => match ($state) {
                     'draft' => 'پیش‌نویس',
-                    'scheduled' => 'زمان‌بندی‌شده',
                     'published' => 'منتشرشده',
                     'archived' => 'بایگانی‌شده',
                     default => $state,
@@ -201,7 +199,6 @@ class ContentItemResource extends Resource
                 ]),
                 SelectFilter::make('status')->label('وضعیت')->options([
                     'draft' => 'پیش‌نویس',
-                    'scheduled' => 'زمان‌بندی‌شده',
                     'published' => 'منتشرشده',
                     'archived' => 'بایگانی‌شده',
                 ]),
