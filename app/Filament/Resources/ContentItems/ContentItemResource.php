@@ -158,12 +158,12 @@ class ContentItemResource extends Resource
             Section::make('انتشار')
                 ->columns(2)
                 ->schema([
-                    Select::make('status')->label('وضعیت')->options([
+                    Select::make('status')->label('وضعیت')->live()->options([
                         'draft' => 'پیش‌نویس',
                         'published' => 'منتشرشده',
                         'archived' => 'بایگانی‌شده',
                     ])->default('draft')->required(),
-                    DateTimePicker::make('published_at')->label('زمان انتشار')->jalali()->displayFormat('Y/m/d H:i')->seconds(false),
+                    DateTimePicker::make('published_at')->label('زمان انتشار')->jalali()->displayFormat('Y/m/d H:i')->seconds(false)->visible(fn (Get $get): bool => $get('status') === 'published'),
                 ]),
         ]);
     }

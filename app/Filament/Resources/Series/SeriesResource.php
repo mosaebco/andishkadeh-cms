@@ -16,6 +16,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -63,6 +64,7 @@ class SeriesResource extends Resource
                 ->schema([
                     Select::make('status')
                         ->label('وضعیت')
+                        ->live()
                         ->options([
                             'draft' => 'پیش‌نویس',
                             'published' => 'منتشرشده',
@@ -75,6 +77,7 @@ class SeriesResource extends Resource
                         ->jalali()
                         ->displayFormat('Y/m/d H:i')
                         ->seconds(false)
+                        ->visible(fn (Get $get): bool => $get('status') === 'published')
                         ->helperText('موارد منتشرشده فقط پس از این زمان نمایش داده می‌شوند.'),
                 ]),
         ]);

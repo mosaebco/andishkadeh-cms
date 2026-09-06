@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Series;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -35,6 +36,16 @@ class AdminPanelTest extends TestCase
 
         $this->actingAs($admin)
             ->get('/admin/series/create')
+            ->assertOk()
+            ->assertDontSee('filament-jalali', escape: false);
+
+        $series = Series::factory()->create([
+            'status' => 'published',
+            'published_at' => now(),
+        ]);
+
+        $this->actingAs($admin)
+            ->get('/admin/series/'.$series->slug.'/edit')
             ->assertOk()
             ->assertSee('filament-jalali', escape: false)
             ->assertSee('fi-fo-date-time-picker-panel', escape: false)
