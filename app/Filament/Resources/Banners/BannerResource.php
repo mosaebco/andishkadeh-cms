@@ -66,8 +66,8 @@ class BannerResource extends Resource
                 ->schema([
                     Toggle::make('is_active')->label('فعال')->default(false),
                     TextInput::make('sort_order')->label('ترتیب نمایش')->numeric()->default(0)->minValue(0),
-                    DateTimePicker::make('starts_at')->label('شروع نمایش')->seconds(false),
-                    DateTimePicker::make('ends_at')->label('پایان نمایش')->seconds(false)->after('starts_at'),
+                    DateTimePicker::make('starts_at')->label('شروع نمایش')->jalali()->displayFormat('Y/m/d H:i')->seconds(false),
+                    DateTimePicker::make('ends_at')->label('پایان نمایش')->jalali()->displayFormat('Y/m/d H:i')->seconds(false)->after('starts_at'),
                 ]),
         ]);
     }
@@ -82,8 +82,8 @@ class BannerResource extends Resource
                 TextColumn::make('title')->label('عنوان')->searchable()->weight('bold'),
                 TextColumn::make('sort_order')->label('ترتیب')->sortable(),
                 IconColumn::make('is_active')->boolean()->label('فعال'),
-                TextColumn::make('starts_at')->label('شروع نمایش')->dateTime()->sortable()->toggleable(),
-                TextColumn::make('ends_at')->label('پایان نمایش')->dateTime()->sortable()->toggleable(),
+                TextColumn::make('starts_at')->label('شروع نمایش')->jalaliDateTime('Y/m/d H:i')->sortable()->toggleable(),
+                TextColumn::make('ends_at')->label('پایان نمایش')->jalaliDateTime('Y/m/d H:i')->sortable()->toggleable(),
             ])
             ->recordActions([
                 EditAction::make(),
