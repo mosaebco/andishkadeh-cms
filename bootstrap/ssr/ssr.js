@@ -513,7 +513,7 @@ function BannerCarousel({ banners }) {
 				"aria-label": "نمایش بنر بعدی",
 				children: /* @__PURE__ */ jsx("span", {
 					"aria-hidden": "true",
-					children: "‹"
+					children: "›"
 				})
 			}),
 			/* @__PURE__ */ jsx("button", {
@@ -523,7 +523,7 @@ function BannerCarousel({ banners }) {
 				"aria-label": "نمایش بنر قبلی",
 				children: /* @__PURE__ */ jsx("span", {
 					"aria-hidden": "true",
-					children: "›"
+					children: "‹"
 				})
 			}),
 			/* @__PURE__ */ jsx("div", {

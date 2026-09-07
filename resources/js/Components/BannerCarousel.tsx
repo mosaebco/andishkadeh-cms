@@ -74,7 +74,7 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
                         onClick={showNext}
                         aria-label="نمایش بنر بعدی"
                     >
-                        <span aria-hidden="true">‹</span>
+                        <span aria-hidden="true">›</span>
                     </button>
                     <button
                         type="button"
@@ -82,7 +82,7 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
                         onClick={showPrevious}
                         aria-label="نمایش بنر قبلی"
                     >
-                        <span aria-hidden="true">›</span>
+                        <span aria-hidden="true">‹</span>
                     </button>
                     <div className="carousel-controls">
                         <div className="carousel-dots">
