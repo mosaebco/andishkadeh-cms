@@ -34,6 +34,13 @@ class ContentItem extends Model
                 throw new InvalidArgumentException('Unsupported content item type: '.(string) $item->type);
             }
 
+            // A published item without an explicit date should be visible
+            // immediately. This also protects records created outside the
+            // Filament form, where the optional date field may be omitted.
+            if ($item->status === 'published' && blank($item->published_at)) {
+                $item->published_at = now();
+            }
+
             if (in_array($item->type, ['course', 'book'], true) && blank($item->cover_image_path)) {
                 throw ValidationException::withMessages([
                     'cover_image_path' => 'A banner image is required for courses and books.',

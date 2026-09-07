@@ -115,8 +115,11 @@ img, video { max-width: 100%; }
 /* Approved homepage content groups */
 .home-section { margin-bottom: 92px; }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 28px; padding-bottom: 13px; border-bottom: 1px dotted var(--teal); }
-.section-heading > span { color: var(--teal); font-size: 12px; font-weight: 700; }
+.section-heading > div { min-width: 0; }
+.section-heading span { color: var(--teal); font-size: 12px; font-weight: 700; }
 .section-heading h1, .section-heading h2 { margin: 0; color: var(--ink); font-size: clamp(23px, 3vw, 31px); line-height: 1.5; }
+.section-more { flex: 0 0 auto; color: var(--teal-dark); font-size: 13px; font-weight: 700; }
+.section-more:hover { color: var(--ink); }
 .announcement-list { overflow: hidden; background: #fff; border-radius: 5px; }
 .announcement-list a { display: flex; min-height: 58px; align-items: center; justify-content: space-between; gap: 20px; padding: 10px 25px; border-bottom: 1px dotted rgba(0,185,142,.35); font-weight: 700; }
 .announcement-list a:last-child { border-bottom: 0; }
@@ -139,7 +142,7 @@ img, video { max-width: 100%; }
 .section-rich-text p { margin-block: 0 1em; text-align: justify; }
 .cta-section { display: flex; align-items: center; justify-content: space-between; gap: 35px; background: var(--teal); color: #fff; }
 .cta-section .section-heading { border-color: rgba(255,255,255,.45); }
-.cta-section .section-heading h2, .cta-section .section-heading > span, .cta-section .section-rich-text { color: #fff; }
+.cta-section .section-heading h2, .cta-section .section-heading span, .cta-section .section-rich-text { color: #fff; }
 .cta-section .primary-action { flex: 0 0 auto; background: #fff; color: var(--teal-dark); }
 .cta-section .primary-action:hover { background: var(--mint); }
 .contact-section .section-heading { margin-bottom: 25px; }
@@ -172,6 +175,7 @@ img, video { max-width: 100%; }
 .page-hero img { width: 100%; aspect-ratio: 1.55/1; object-fit: cover; border-radius: 5px; }
 .listing-page { padding-block: 65px 110px; }
 .listing-page > h2 { margin-bottom: 25px; font-size: 25px; }
+.listing-heading { margin-bottom: 35px; }
 .article-page { max-width: 900px; margin-block: 50px 100px; padding: 55px 75px 85px; background: #fff; }
 .article-header { text-align: right; }
 .article-series { color: var(--teal); font-weight: 700; }

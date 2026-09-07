@@ -66,6 +66,42 @@ class HomePageTest extends TestCase
                 ->where('books.0.type', 'book'));
     }
 
+    public function test_content_sections_have_full_listing_pages(): void
+    {
+        ContentItem::factory()->announcement()->create(['title' => 'First announcement', 'slug' => 'first-announcement']);
+        ContentItem::factory()->announcement()->create(['title' => 'Second announcement', 'slug' => 'second-announcement']);
+        ContentItem::factory()->course()->create(['slug' => 'course-listing']);
+        ContentItem::factory()->book()->create(['slug' => 'book-listing']);
+        Post::factory()->create(['series_id' => null, 'slug' => 'post-listing']);
+
+        $this->get('/announcements')
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Listing')
+                ->where('kind', 'announcements')
+                ->has('items', 2));
+
+        $this->get('/courses')
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Listing')
+                ->where('kind', 'cards')
+                ->has('items', 1));
+
+        $this->get('/books')
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Listing')
+                ->has('items', 1));
+
+        $this->get('/posts')
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('Listing')
+                ->has('items', 1)
+                ->where('items.0.slug', 'post-listing'));
+    }
+
     public function test_donation_page_is_public_but_gateway_is_pending(): void
     {
         $this->get('/donation')

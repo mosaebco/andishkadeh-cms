@@ -36,6 +36,9 @@ const fa = {
         book: 'کتاب',
         announcement: 'اطلاعیه',
     },
+    actions: {
+        showMore: 'نمایش بیشتر',
+    },
 } as const;
 
 export default fa;

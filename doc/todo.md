@@ -26,6 +26,8 @@ Read [blueprint.md](blueprint.md) and [need-to-know.md](need-to-know.md) before 
 
 - [x] Refactor homepage data into banners, announcements, posts/series, courses, books, registration CTA, About, and Contact; keep Donation on its own page.
 - [x] Implement approved homepage order: banners, announcements list, posts/series cards, course cards, book cards, About, registration, Contact; keep Donation as a separate page linked in the top navigation.
+- [x] Add “نمایش بیشتر” links and full public listing pages for announcements, posts/series, courses, and books.
+- [x] Order public listings and admin content/series tables newest-first by publication date (with undated records last in admin tables).
 - [x] Add admin ordering/visibility controls per group.
 - [x] Use the editable Persian labels in `resources/js/locales/fa.ts` throughout public navigation and section headings.
 - [x] Keep public UI Persian-only for the first release while retaining translation-ready structure.

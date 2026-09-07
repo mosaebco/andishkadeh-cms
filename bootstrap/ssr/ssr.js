@@ -209,7 +209,8 @@ var fa = {
 		course: "دوره",
 		book: "کتاب",
 		announcement: "اطلاعیه"
-	}
+	},
+	actions: { showMore: "نمایش بیشتر" }
 };
 //#endregion
 //#region resources/js/Components/SiteLayout.tsx
@@ -569,13 +570,20 @@ var contactHref = (method) => {
 	if (method.type === "telegram") return `https://t.me/${handle}`;
 	if (method.type === "instagram") return `https://instagram.com/${handle}`;
 	if (method.type === "eitaa") return `https://eitaa.com/${handle}`;
-	if (method.type === "whatsapp") return `https://wa.me/${value.replace(/\D/g, "")}`;
+	if (method.type === "whatsapp") {
+		const phone = value.replace(/\D/g, "");
+		return phone ? `https://wa.me/${phone}` : null;
+	}
 	return null;
 };
-function SectionHeading({ eyebrow, title }) {
+function SectionHeading({ eyebrow, title, moreHref }) {
 	return /* @__PURE__ */ jsxs("header", {
 		className: "section-heading",
-		children: [/* @__PURE__ */ jsx("span", { children: eyebrow }), /* @__PURE__ */ jsx("h2", { children: title })]
+		children: [/* @__PURE__ */ jsxs("div", { children: [/* @__PURE__ */ jsx("span", { children: eyebrow }), /* @__PURE__ */ jsx("h2", { children: title })] }), moreHref && /* @__PURE__ */ jsxs(Link, {
+			className: "section-more",
+			href: moreHref,
+			children: [fa.actions.showMore, " ←"]
+		})]
 	});
 }
 function Home({ banners, postsAndSeries, announcements, courses, books, about, registration, contactMethods }) {
@@ -587,7 +595,8 @@ function Home({ banners, postsAndSeries, announcements, courses, books, about, r
 			id: "announcements",
 			children: [/* @__PURE__ */ jsx(SectionHeading, {
 				eyebrow: "تازه‌ها",
-				title: fa.sections.announcements
+				title: fa.sections.announcements,
+				moreHref: "/announcements"
 			}), /* @__PURE__ */ jsx(AnnouncementList, { items: announcements })]
 		}),
 		/* @__PURE__ */ jsxs("section", {
@@ -595,7 +604,8 @@ function Home({ banners, postsAndSeries, announcements, courses, books, about, r
 			id: "posts-series",
 			children: [/* @__PURE__ */ jsx(SectionHeading, {
 				eyebrow: "خواندنی‌ها",
-				title: fa.sections.postsAndSeries
+				title: fa.sections.postsAndSeries,
+				moreHref: "/posts"
 			}), /* @__PURE__ */ jsx(ContentCardGrid, { items: postsAndSeries.slice(0, 8) })]
 		}),
 		/* @__PURE__ */ jsxs("section", {
@@ -603,7 +613,8 @@ function Home({ banners, postsAndSeries, announcements, courses, books, about, r
 			id: "courses",
 			children: [/* @__PURE__ */ jsx(SectionHeading, {
 				eyebrow: "آموزش",
-				title: fa.sections.courses
+				title: fa.sections.courses,
+				moreHref: "/courses"
 			}), /* @__PURE__ */ jsx(ContentCardGrid, { items: courses })]
 		}),
 		/* @__PURE__ */ jsxs("section", {
@@ -611,7 +622,8 @@ function Home({ banners, postsAndSeries, announcements, courses, books, about, r
 			id: "books",
 			children: [/* @__PURE__ */ jsx(SectionHeading, {
 				eyebrow: "مطالعه",
-				title: fa.sections.books
+				title: fa.sections.books,
+				moreHref: "/books"
 			}), /* @__PURE__ */ jsx(ContentCardGrid, { items: books })]
 		}),
 		/* @__PURE__ */ jsx("section", {
@@ -671,6 +683,21 @@ function Home({ banners, postsAndSeries, announcements, courses, books, about, r
 			})]
 		})
 	] });
+}
+//#endregion
+//#region resources/js/Pages/Listing.tsx
+var Listing_exports = /* @__PURE__ */ __exportAll({ default: () => Listing });
+function Listing({ title, eyebrow, kind, items }) {
+	return /* @__PURE__ */ jsx(SiteLayout, {
+		title,
+		children: /* @__PURE__ */ jsxs("section", {
+			className: "shell listing-page",
+			children: [/* @__PURE__ */ jsx("header", {
+				className: "section-heading listing-heading",
+				children: /* @__PURE__ */ jsxs("div", { children: [/* @__PURE__ */ jsx("span", { children: eyebrow }), /* @__PURE__ */ jsx("h1", { children: title })] })
+			}), kind === "announcements" ? /* @__PURE__ */ jsx(AnnouncementList, { items }) : /* @__PURE__ */ jsx(ContentCardGrid, { items })]
+		})
+	});
 }
 //#endregion
 //#region resources/js/Pages/Posts/Show.tsx
@@ -794,6 +821,7 @@ createServer((page) => createInertiaApp({
 			"./Pages/Content/Show.tsx": Show_exports$3,
 			"./Pages/Donation/Show.tsx": Show_exports$2,
 			"./Pages/Home.tsx": Home_exports,
+			"./Pages/Listing.tsx": Listing_exports,
 			"./Pages/Posts/Show.tsx": Show_exports$1,
 			"./Pages/Series/Show.tsx": Show_exports
 		}))[`./Pages/${name}.tsx`];

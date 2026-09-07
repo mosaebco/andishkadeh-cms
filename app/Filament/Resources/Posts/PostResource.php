@@ -25,6 +25,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Validation\Rules\Unique;
 
 class PostResource extends Resource
@@ -149,7 +150,10 @@ class PostResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultSort('published_at', 'desc')
+            ->defaultSort(fn (EloquentBuilder $query): EloquentBuilder => $query
+                ->orderByRaw('published_at IS NULL ASC')
+                ->orderByDesc('published_at')
+                ->orderByDesc('id'))
             ->columns([
                 ImageColumn::make('cover_image_path')->label('')->disk(config('media.disk'))->square(),
                 TextColumn::make('title')->label('عنوان')->searchable()->weight('bold'),

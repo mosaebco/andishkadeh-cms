@@ -156,6 +156,9 @@ The first public content milestone is implemented and being polished:
 - Filament resources for banners, series, shared content items, site sections, contact methods, and read-only donation transactions
 - Draft, published, and archived content states, with future publication dates supported by `published_at`
 - Configurable About, institute-registration, Contact, and Donation sections
+- “نمایش بیشتر” links for announcements, posts/series, courses, and books, each opening a full listing page
+- Public listing pages order content newest-first by publication time
+- Filament content and series tables default to newest publication time first, with undated records placed after dated records
 
 The Donation gateway adapter and external registration provider are intentionally pending their real provider details. Program registration/payment, search, and book commerce remain out of scope. The existing separate `posts` implementation is retained as a compatibility route/resource while the unified Content resource is the primary admin workflow.
 
@@ -217,6 +220,7 @@ The block editor uses a bounded Filament Builder stored as PostgreSQL `jsonb`/La
 ### Publication rules
 
 - A record is public only when its status is `published` and its publication time is not in the future.
+- If an administrator publishes a record without entering a publication time, the system fills in the current time and publishes it immediately.
 - A post is public only when its status/time are public and, if it has a `series_id`, its parent series is also public. Standalone posts with `series_id = null` do not require a series.
 - Draft, not-yet-published, and archived content must return `404` publicly.
 - All published series and posts are public; there is no paid or account-restricted content.
@@ -238,6 +242,8 @@ The target homepage should render these groups in the approved order:
 9. Contact Us and footer
 
 Donation has its own public page and is linked in the top navigation. Navigation tabs also link to each homepage section.
+
+Each content group on the homepage includes a “نمایش بیشتر” action. The action opens a dedicated listing route (`/announcements`, `/posts`, `/courses`, or `/books`) containing all currently public records for that group.
 
 Filament controls all data. The implementation reproduces the reference's layout system with original placeholder branding and demo content; production logo, wording, and real imagery remain to be supplied.
 

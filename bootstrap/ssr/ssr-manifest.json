@@ -10,6 +10,7 @@
   "resources/js/Pages/Content/Show.tsx": [],
   "resources/js/Pages/Donation/Show.tsx": [],
   "resources/js/Pages/Home.tsx": [],
+  "resources/js/Pages/Listing.tsx": [],
   "resources/js/Pages/Posts/Show.tsx": [],
   "resources/js/Pages/Series/Show.tsx": [],
   "resources/js/locales/fa.ts": [],

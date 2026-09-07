@@ -172,4 +172,17 @@ class ContentPageTest extends TestCase
 
         $this->get('/announcements/'.$item->slug)->assertNotFound();
     }
+
+    public function test_published_content_without_a_date_is_published_immediately(): void
+    {
+        $item = ContentItem::factory()->announcement()->create([
+            'slug' => 'immediate-announcement',
+            'status' => 'published',
+            'published_at' => null,
+        ]);
+
+        $this->assertNotNull($item->fresh()->published_at);
+
+        $this->get('/announcements/'.$item->slug)->assertOk();
+    }
 }

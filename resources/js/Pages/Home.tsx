@@ -1,3 +1,4 @@
+import { Link } from '@inertiajs/react';
 import AnnouncementList from '../Components/AnnouncementList';
 import BannerCarousel from '../Components/BannerCarousel';
 import ContentCardGrid from '../Components/ContentCardGrid';
@@ -49,11 +50,14 @@ const contactHref = (method: ContactMethod): string | null => {
     return null;
 };
 
-function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
+function SectionHeading({ eyebrow, title, moreHref }: { eyebrow: string; title: string; moreHref?: string }) {
     return (
         <header className="section-heading">
-            <span>{eyebrow}</span>
-            <h2>{title}</h2>
+            <div>
+                <span>{eyebrow}</span>
+                <h2>{title}</h2>
+            </div>
+            {moreHref && <Link className="section-more" href={moreHref}>{fa.actions.showMore} ←</Link>}
         </header>
     );
 }
@@ -74,22 +78,22 @@ export default function Home({
             <BannerCarousel banners={banners} />
 
             <section className="home-section shell announcements-section" id="announcements">
-                <SectionHeading eyebrow="تازه‌ها" title={fa.sections.announcements} />
+                <SectionHeading eyebrow="تازه‌ها" title={fa.sections.announcements} moreHref="/announcements" />
                 <AnnouncementList items={announcements} />
             </section>
 
             <section className="home-section shell" id="posts-series">
-                <SectionHeading eyebrow="خواندنی‌ها" title={fa.sections.postsAndSeries} />
+                <SectionHeading eyebrow="خواندنی‌ها" title={fa.sections.postsAndSeries} moreHref="/posts" />
                 <ContentCardGrid items={postsAndSeries.slice(0, 8)} />
             </section>
 
             <section className="home-section shell" id="courses">
-                <SectionHeading eyebrow="آموزش" title={fa.sections.courses} />
+                <SectionHeading eyebrow="آموزش" title={fa.sections.courses} moreHref="/courses" />
                 <ContentCardGrid items={courses} />
             </section>
 
             <section className="home-section shell" id="books">
-                <SectionHeading eyebrow="مطالعه" title={fa.sections.books} />
+                <SectionHeading eyebrow="مطالعه" title={fa.sections.books} moreHref="/books" />
                 <ContentCardGrid items={books} />
             </section>
 

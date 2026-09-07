@@ -26,6 +26,10 @@ class Series extends Model
                 ]);
             }
 
+            if ($series->status === 'published' && blank($series->published_at)) {
+                $series->published_at = now();
+            }
+
             if (blank($series->slug)) {
                 $baseSlug = Str::slug($series->title) ?: 'series';
                 $series->slug = $baseSlug;

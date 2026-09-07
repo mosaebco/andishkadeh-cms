@@ -22,6 +22,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class SeriesResource extends Resource
 {
@@ -86,7 +87,10 @@ class SeriesResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultSort('sort_order')
+            ->defaultSort(fn (Builder $query): Builder => $query
+                ->orderByRaw('published_at IS NULL ASC')
+                ->orderByDesc('published_at')
+                ->orderByDesc('id'))
             ->reorderable('sort_order')
             ->columns([
                 ImageColumn::make('cover_image_path')->label('')->disk(config('media.disk'))->square(),
