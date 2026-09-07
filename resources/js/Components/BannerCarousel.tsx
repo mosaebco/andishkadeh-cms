@@ -70,17 +70,17 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
                 <>
                     <button
                         type="button"
-                        className="carousel-arrow carousel-arrow-previous"
-                        onClick={showPrevious}
-                        aria-label="نمایش بنر قبلی"
+                        className="carousel-arrow carousel-arrow-left"
+                        onClick={showNext}
+                        aria-label="نمایش بنر بعدی"
                     >
                         <span aria-hidden="true">‹</span>
                     </button>
                     <button
                         type="button"
-                        className="carousel-arrow carousel-arrow-next"
-                        onClick={showNext}
-                        aria-label="نمایش بنر بعدی"
+                        className="carousel-arrow carousel-arrow-right"
+                        onClick={showPrevious}
+                        aria-label="نمایش بنر قبلی"
                     >
                         <span aria-hidden="true">›</span>
                     </button>

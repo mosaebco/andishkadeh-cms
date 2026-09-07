@@ -508,9 +508,9 @@ function BannerCarousel({ banners }) {
 		}, banner.id)), banners.length > 1 && /* @__PURE__ */ jsxs(Fragment, { children: [
 			/* @__PURE__ */ jsx("button", {
 				type: "button",
-				className: "carousel-arrow carousel-arrow-previous",
-				onClick: showPrevious,
-				"aria-label": "نمایش بنر قبلی",
+				className: "carousel-arrow carousel-arrow-left",
+				onClick: showNext,
+				"aria-label": "نمایش بنر بعدی",
 				children: /* @__PURE__ */ jsx("span", {
 					"aria-hidden": "true",
 					children: "‹"
@@ -518,9 +518,9 @@ function BannerCarousel({ banners }) {
 			}),
 			/* @__PURE__ */ jsx("button", {
 				type: "button",
-				className: "carousel-arrow carousel-arrow-next",
-				onClick: showNext,
-				"aria-label": "نمایش بنر بعدی",
+				className: "carousel-arrow carousel-arrow-right",
+				onClick: showPrevious,
+				"aria-label": "نمایش بنر قبلی",
 				children: /* @__PURE__ */ jsx("span", {
 					"aria-hidden": "true",
 					children: "›"
