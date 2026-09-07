@@ -4,6 +4,14 @@ import type { Banner } from '../types';
 export default function BannerCarousel({ banners }: { banners: Banner[] }) {
     const [active, setActive] = useState(0);
 
+    const showPrevious = () => {
+        setActive((current) => (current - 1 + banners.length) % banners.length);
+    };
+
+    const showNext = () => {
+        setActive((current) => (current + 1) % banners.length);
+    };
+
     useEffect(() => {
         if (banners.length < 2) return;
 
@@ -59,20 +67,38 @@ export default function BannerCarousel({ banners }: { banners: Banner[] }) {
             ))}
 
             {banners.length > 1 && (
-                <div className="carousel-controls">
-                    <div className="carousel-dots">
-                        {banners.map((banner, index) => (
-                            <button
-                                type="button"
-                                key={banner.id}
-                                className={index === active ? 'is-active' : ''}
-                                onClick={() => setActive(index)}
-                                aria-label={`نمایش بنر ${index + 1}`}
-                                aria-current={index === active}
-                            />
-                        ))}
+                <>
+                    <button
+                        type="button"
+                        className="carousel-arrow carousel-arrow-previous"
+                        onClick={showPrevious}
+                        aria-label="نمایش بنر قبلی"
+                    >
+                        <span aria-hidden="true">‹</span>
+                    </button>
+                    <button
+                        type="button"
+                        className="carousel-arrow carousel-arrow-next"
+                        onClick={showNext}
+                        aria-label="نمایش بنر بعدی"
+                    >
+                        <span aria-hidden="true">›</span>
+                    </button>
+                    <div className="carousel-controls">
+                        <div className="carousel-dots">
+                            {banners.map((banner, index) => (
+                                <button
+                                    type="button"
+                                    key={banner.id}
+                                    className={index === active ? 'is-active' : ''}
+                                    onClick={() => setActive(index)}
+                                    aria-label={`نمایش بنر ${index + 1}`}
+                                    aria-current={index === active}
+                                />
+                            ))}
+                        </div>
                     </div>
-                </div>
+                </>
             )}
         </section>
     );

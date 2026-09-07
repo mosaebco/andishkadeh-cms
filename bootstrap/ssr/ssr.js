@@ -436,6 +436,12 @@ function AnnouncementList({ items }) {
 //#region resources/js/Components/BannerCarousel.tsx
 function BannerCarousel({ banners }) {
 	const [active, setActive] = useState(0);
+	const showPrevious = () => {
+		setActive((current) => (current - 1 + banners.length) % banners.length);
+	};
+	const showNext = () => {
+		setActive((current) => (current + 1) % banners.length);
+	};
 	useEffect(() => {
 		if (banners.length < 2) return;
 		const timer = window.setInterval(() => {
@@ -499,19 +505,41 @@ function BannerCarousel({ banners }) {
 					})
 				]
 			})]
-		}, banner.id)), banners.length > 1 && /* @__PURE__ */ jsx("div", {
-			className: "carousel-controls",
-			children: /* @__PURE__ */ jsx("div", {
-				className: "carousel-dots",
-				children: banners.map((banner, index) => /* @__PURE__ */ jsx("button", {
-					type: "button",
-					className: index === active ? "is-active" : "",
-					onClick: () => setActive(index),
-					"aria-label": `نمایش بنر ${index + 1}`,
-					"aria-current": index === active
-				}, banner.id))
+		}, banner.id)), banners.length > 1 && /* @__PURE__ */ jsxs(Fragment, { children: [
+			/* @__PURE__ */ jsx("button", {
+				type: "button",
+				className: "carousel-arrow carousel-arrow-previous",
+				onClick: showPrevious,
+				"aria-label": "نمایش بنر قبلی",
+				children: /* @__PURE__ */ jsx("span", {
+					"aria-hidden": "true",
+					children: "‹"
+				})
+			}),
+			/* @__PURE__ */ jsx("button", {
+				type: "button",
+				className: "carousel-arrow carousel-arrow-next",
+				onClick: showNext,
+				"aria-label": "نمایش بنر بعدی",
+				children: /* @__PURE__ */ jsx("span", {
+					"aria-hidden": "true",
+					children: "›"
+				})
+			}),
+			/* @__PURE__ */ jsx("div", {
+				className: "carousel-controls",
+				children: /* @__PURE__ */ jsx("div", {
+					className: "carousel-dots",
+					children: banners.map((banner, index) => /* @__PURE__ */ jsx("button", {
+						type: "button",
+						className: index === active ? "is-active" : "",
+						onClick: () => setActive(index),
+						"aria-label": `نمایش بنر ${index + 1}`,
+						"aria-current": index === active
+					}, banner.id))
+				})
 			})
-		})]
+		] })]
 	});
 }
 //#endregion
